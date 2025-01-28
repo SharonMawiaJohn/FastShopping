@@ -1,3 +1,4 @@
+from pyexpat import Model
 from django.db import models
 from django.utils.text import slugify
 
