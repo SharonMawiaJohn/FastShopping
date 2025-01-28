@@ -14,3 +14,15 @@ class Product(models,Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+
+        if not self.slug:
+            self.slug = slugify(self.name)
+            unique_slug = self.slug
+            counter = 1
+            if Product.objects.filter(slug = unique_slug).exists():
+                unique_slug = f'{self.slug}.{counter}'
+                counter += 1
+            self.slug = unique_slug
+        super().save(*args, **kwargs)
