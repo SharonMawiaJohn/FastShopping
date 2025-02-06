@@ -24,16 +24,13 @@ def add_item(request):
         cart_code = request.data.get("cart_code")
         product_id = request.data.get("product_id")
 
-        cart, _ = Cart.objects.get_or_create(cart_code=cart_code)  # Extract cart instance
+        cart, created= Cart.objects.get_or_create(cart_code=cart_code)  # Extract cart instance
         product = Product.objects.get(id=product_id)
 
         cartitem, created = CartItem.objects.get_or_create(cart=cart, product=product)
-        if created:
-            cartitem.quantity = 1
-        else:
-            cartitem.quantity += 1  # Increment quantity if item already exists
+        cartitem.quantity = 1
+        cartitem.save() 
 
-        cartitem.save()
 
         serializer = CartItemSerializer(cartitem)
         return Response({"data": serializer.data, "message": "CartItem created successfully"}, status=201)
