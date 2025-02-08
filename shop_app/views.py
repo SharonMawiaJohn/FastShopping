@@ -39,7 +39,6 @@ def add_item(request):
 
 @api_view(["GET"])
 def product_in_cart(request):
-    try:
         cart_code = request.query_params.get("cart_code")
         product_id = request.query_params.get("product_id")
 
